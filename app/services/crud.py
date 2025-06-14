@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from app import models, schemas
+from app.schemas import schemas
+from app.models import models
 
 def get_productos(db: Session):
     return db.query(models.Producto).all()

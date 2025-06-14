@@ -1,10 +1,7 @@
 from fastapi import FastAPI
-from app.routers import productos
-from app.database import Base, engine
+from app.routers import producto
 
-app = FastAPI(title="Tienda API")
+app = FastAPI()
 
-Base.metadata.create_all(bind=engine)
-
-app.include_router(productos.router)
+app.include_router(producto.router)
 
