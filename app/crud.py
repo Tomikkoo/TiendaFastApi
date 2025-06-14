@@ -4,19 +4,24 @@ from app import models, schemas
 def get_productos(db: Session):
     return db.query(models.Producto).all()
 
-def get_producto(db: Session, producto_id: int):
-    return db.query(models.Producto).filter(models.Producto.id == producto_id).first()
+def get_producto(db: Session, id: int):
+    return db.query(models.Producto).filter(models.Producto.id == id).first()
 
 def create_producto(db: Session, producto: schemas.ProductoCreate):
-    db_producto = models.Producto(**producto.dict())
-    db.add(db_producto)
-    db.commit()
-    db.refresh(db_producto)
-    return db_producto
+    db_p = models.Producto(**producto.dict())
+    db.add(db_p); db.commit(); db.refresh(db_p)
+    return db_p
 
-def delete_producto(db: Session, producto_id: int):
-    db_producto = get_producto(db, producto_id)
-    if db_producto:
-        db.delete(db_producto)
+def update_producto(db: Session, db_p: models.Producto, update: schemas.ProductoCreate):
+    for key, val in update.dict().items():
+        setattr(db_p, key, val)
+    db.commit(); db.refresh(db_p)
+    return db_p
+
+def delete_producto(db: Session, id: int):
+    db_p = get_producto(db, id)
+    if db_p:
+        db.delete(db_p)
         db.commit()
-    return db_producto
+    return db_p
+

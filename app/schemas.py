@@ -10,6 +10,6 @@ class ProductoCreate(ProductoBase):
 
 class ProductoOut(ProductoBase):
     id: int
-
     class Config:
         orm_mode = True
+
